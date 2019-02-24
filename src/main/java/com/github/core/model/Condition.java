@@ -14,4 +14,8 @@ public class Condition {
     private String name; //文件名
 
     private FileType fileType; //文件类型
+
+    private Boolean orderByAsc; //根据文件深度的排序类型
+
+    private Integer limit ; //搜索文件的最大深度
 }

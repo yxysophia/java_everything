@@ -31,4 +31,19 @@ public enum FileType {
         }
         return FileType.OTHER;  //没有返回其他文件类型
     }
+
+    /**
+     * 通过FileType属性名找到文件类型
+     * @param name
+     * @return
+     */
+    public static FileType lookUpByName(String name)
+    {
+        for(FileType fileType:FileType.values())
+        {
+            if(fileType.name().equals(name))
+                return fileType;
+        }
+        return FileType.OTHER;
+    }
 }

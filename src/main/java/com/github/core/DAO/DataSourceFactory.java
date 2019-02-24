@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,9 +32,7 @@ public class DataSourceFactory {
     {
 
     }
-
-    public static DataSource getDataSource()
-    {
+    public static DataSource getDataSource()  {
         if(dataSource==null)
         {
             synchronized (DataSourceFactory.class)
@@ -44,6 +45,16 @@ public class DataSourceFactory {
                     dataSource=new DruidDataSource();
                     //设置数据源的驱动名称
                     dataSource.setDriverClassName("org.h2.Driver");
+
+
+                    ///读Druid资源文件信息
+                    Properties p = new Properties();
+                    try {
+                        p.load(DataSourceFactory.class.getClassLoader().getResourceAsStream("druid.properties"));
+                        dataSource.setTestWhileIdle(Boolean.parseBoolean((String) p.get("testWhileIdle")));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     //正常需要url username password JDBC规范中关于MySQL jdbc:mysql://ip:port/databaseName
                     //由于采用的数据库是h2,h2是嵌入式数据库，
@@ -93,12 +104,12 @@ public class DataSourceFactory {
                 }
             }
             //3.获取数据库连接和名称执行SQL
-            String sql=sbSQL.toString(); //获取都sql语句
+            String sql=sbSQL.toString(); //获取sql语句
 
             //JDBC编程
-            //3.1加载数据库驱动---获取都数据源
+            //3.1加载数据库驱动---创建数据源时准备好
             try {
-                //3.2获取数据库的连接
+                //3.2获取数据库的连接，用的数据源---数据库连接，不需要
                 Connection connection=dataSource.getConnection();
                 //3.3创建命令
                 PreparedStatement statement=connection.prepareStatement(sql);
@@ -111,7 +122,6 @@ public class DataSourceFactory {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }finally {
             try {
                 inputStream.close();
@@ -120,9 +130,5 @@ public class DataSourceFactory {
             }
             scanner.close();
         }
-    }
-
-    public static void main(String[] args) {
-        DataSourceFactory.initDatbase();
     }
 }
