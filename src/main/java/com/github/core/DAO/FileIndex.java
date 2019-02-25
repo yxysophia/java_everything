@@ -32,4 +32,6 @@ public interface FileIndex {
      */
     void insert(Thing thing);
 
+    void delete(Thing thing);
+
 }

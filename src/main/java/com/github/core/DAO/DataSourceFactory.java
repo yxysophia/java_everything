@@ -64,6 +64,7 @@ public class DataSourceFactory {
                     //JDBC规范中关于H2  jdbc:h2://ip:port/databaseName --->存储到服务器
 
                     //获取当前工作路径
+                    //TODO 在config里获取
                     String workDir=System.getProperty("user.dir");//D:\VScode\Ideamavn\java_everything
                     dataSource.setUrl("jdbc:h2:"+workDir+ File.separator+"java_everything");
                     //java_everthing是数据库名称

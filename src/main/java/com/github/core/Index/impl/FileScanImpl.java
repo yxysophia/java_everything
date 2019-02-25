@@ -1,13 +1,8 @@
 package com.github.core.Index.impl;
 
 import com.github.config.EverythingConfig;
-import com.github.core.DAO.DataSourceFactory;
-import com.github.core.DAO.impl.FileIndexDao;
 import com.github.core.Index.FileScan;
 import com.github.core.interceptor.FileInter;
-import com.github.core.interceptor.impl.FileInsertSqlInter;
-import com.github.core.interceptor.impl.FilePrintInte;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,14 +50,4 @@ public class FileScanImpl implements FileScan {
     {
         this.fileInters.add(fileInter);
     }
-
-//    public static void main(String[] args) {
-//        FileScanImpl fileScan=new FileScanImpl();
-//
-//        FilePrintInte filePrintInte=new FilePrintInte();
-//        FileInsertSqlInter fileInsertSqlInter=new FileInsertSqlInter(new FileIndexDao(DataSourceFactory.getDataSource()));
-//        fileScan.addInterceptor(fileInsertSqlInter);
-//        fileScan.addInterceptor(filePrintInte);
-//        fileScan.index("E:\\随写");
-//    }
 }

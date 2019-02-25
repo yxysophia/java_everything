@@ -8,7 +8,7 @@ import java.util.Set;
 public enum FileType {
 
     IMG("png","jpeg","jpe","gif"), //图片形式
-    DOC("doc","docx","pdf","ppt"),  //文档形式
+    DOC("doc","docx","pdf","ppt","txt"),  //文档形式
     BIN("exe","sh","jar","msi"), //二进制形式 可以是执行文件
     OTHER(".*") ;
 
@@ -41,7 +41,7 @@ public enum FileType {
     {
         for(FileType fileType:FileType.values())
         {
-            if(fileType.name().equals(name))
+            if(fileType.name().equals(name.toUpperCase()))
                 return fileType;
         }
         return FileType.OTHER;

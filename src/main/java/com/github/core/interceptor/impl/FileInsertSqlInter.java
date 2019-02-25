@@ -22,7 +22,6 @@ public class FileInsertSqlInter implements FileInter {
         //首先需要将文件对象转换为Thing对象
         Thing thing=FileCovertThing.Covert(file);
         //将thing对象写入数据库
-        System.out.println("插入数据："+thing);
-        fileIndexDao.insert(thing);
+            fileIndexDao.insert(thing);
     }
 }

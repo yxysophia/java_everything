@@ -29,8 +29,7 @@ public class FileCovertThing {
     //通过具体文件计算该文件的深度
     private static int computeDepth(File file)
     {
-        //按File.separator分隔
-        String[] Depth=file.getName().split("\\\\");
+        String[] Depth=file.getAbsolutePath().split("\\\\"); // "\\"是转义字符
         return Depth.length;
     }
 
