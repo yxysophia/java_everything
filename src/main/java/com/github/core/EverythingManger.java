@@ -57,16 +57,22 @@ public class EverythingManger {
 
     }
 
-    //检查是否初始化数据库
+    //初始化数据库
     private void InitSql()
     {
-        String workDir=System.getProperty("user.dir");
-        String sqlPath=workDir+ File.separator+"java_everything.mv.db";
-        File sqlFile=new File(sqlPath);
-        if(! sqlFile.exists())  //数据库不存在，即没有初始化数据库
-        {
-            DataSourceFactory.initDatbase();
-        }
+        /**
+         * String workDir=System.getProperty("user.dir");
+         *         String sqlPath=workDir+ File.separator+"java_everything.mv.db";
+         *         File sqlFile=new File(sqlPath);
+         *         if(! sqlFile.exists())  //数据库不存在，即没有初始化数据库
+         *         {
+         *             DataSourceFactory.initDatbase();
+         *         }
+         */
+        //上述初始化数据库方式有问题，因为一旦数据库连接，就要mv.db文件，就不会初始化数据库，但是数据库中表并不存在
+        //所以需要在第一次使用everything和重建索引(buildIndex)时初始化数据库
+        System.out.println("初始化数据库");
+        DataSourceFactory.initDatbase();
     }
 
     public static EverythingManger getEverythingManger()
@@ -78,7 +84,7 @@ public class EverythingManger {
                 if(everythingManger==null)
                 {
                     everythingManger=new EverythingManger();
-                    everythingManger.initScanSearch();
+                    everythingManger.initScanSearch(); //需要遍历的
                     everythingManger.InitSql(); //初始化数据库
                 }
             }
@@ -117,6 +123,8 @@ public class EverythingManger {
      */
     public void BuildIndex()
     {
+        //将文件写入数据库时需要将数据库初始化
+        InitSql(); //重建索引需要初始化数据库
         EverythingConfig config=EverythingConfig.getConfig();
         Set<String> includePath=config.getIncludePath();
         int pathCount=includePath.size();//需要遍历的盘符个数

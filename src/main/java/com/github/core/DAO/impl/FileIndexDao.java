@@ -49,7 +49,6 @@ public class FileIndexDao implements FileIndex {
                     .append(" limit ")
                     .append(condition.getLimit())
                     .append(" offset 0");
-            System.out.println(sqlString.toString());
             preStatement=connection.prepareStatement(sqlString.toString());
             resultSet=preStatement.executeQuery();
             while(resultSet.next()) //结果集还有元素

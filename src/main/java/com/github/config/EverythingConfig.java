@@ -1,6 +1,8 @@
 package com.github.config;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -17,11 +19,17 @@ import java.util.function.Consumer;
  */
 
 @Getter
+@ToString
 //includePath excludePath只能够获取，不能修改
 public class EverythingConfig {
 
     private Set<String> includePath=new HashSet<>();
     private Set<String> excludePath=new HashSet<>();
+
+    @Setter
+    private Integer maxReturn=30; //返回检索文件的最大深度
+    @Setter
+    private Boolean orderByAsc=true;  //是否以深度升序返回检索文件
 
     private static volatile EverythingConfig config;
     private EverythingConfig(){
@@ -57,7 +65,7 @@ public class EverythingConfig {
             config.excludePath.add("/root");
         }
     }
-    //TODO H2数据库文件路径
+
     public static  EverythingConfig getConfig()
     {
         //double check

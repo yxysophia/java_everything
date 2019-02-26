@@ -1,9 +1,6 @@
 package com.github.core.DAO;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import jdk.nashorn.internal.ir.RuntimeNode;
-
-
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
@@ -11,11 +8,9 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * 创建数据源
@@ -66,7 +61,7 @@ public class DataSourceFactory {
                     //获取当前工作路径
                     //TODO 在config里获取
                     String workDir=System.getProperty("user.dir");//D:\VScode\Ideamavn\java_everything
-                    dataSource.setUrl("jdbc:h2:"+workDir+ File.separator+"java_everything");
+                    dataSource.setUrl("jdbc:h2:"+workDir+ File.separator+"java_everything.sql");
                     //java_everthing是数据库名称
                 }
             }
@@ -106,7 +101,6 @@ public class DataSourceFactory {
             }
             //3.获取数据库连接和名称执行SQL
             String sql=sbSQL.toString(); //获取sql语句
-
             //JDBC编程
             //3.1加载数据库驱动---创建数据源时准备好
             try {
@@ -132,4 +126,5 @@ public class DataSourceFactory {
             scanner.close();
         }
     }
+
 }
