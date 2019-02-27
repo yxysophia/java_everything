@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.github.core.model.Condition;
+import lombok.Getter;
+
 import javax.sql.DataSource;
 
 
@@ -16,6 +18,8 @@ public class FileIndexDao implements FileIndex {
 
     private  final DataSource dataSource;
 
+    @Getter
+    private int countFile=0;
     public FileIndexDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -90,6 +94,7 @@ public class FileIndexDao implements FileIndex {
 
             //执行Sql语句
             preStatement.executeUpdate();
+            countFile++;
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -11,6 +11,8 @@ import com.github.core.interceptor.impl.DeleteThingFromSqlInter;
 import com.github.core.interceptor.impl.FileInsertSqlInter;
 import com.github.core.model.Condition;
 import com.github.core.model.Thing;
+import com.github.core.monitor.FileWatch;
+import com.github.core.monitor.impl.FileWatchImpl;
 import com.github.core.search.impl.FileSearchImpl;
 import java.io.File;
 import java.util.List;
@@ -40,6 +42,10 @@ public class EverythingManger {
     private Thread backgroundcleanThread;   //清理线程
     private AtomicBoolean cleanthreadStatus=new AtomicBoolean(false);//默认没有启动清理线程
 
+    /**
+     * 监听文件系统
+     */
+    private FileWatch fileWatch;
     private EverythingManger(){
 
     }
@@ -55,6 +61,7 @@ public class EverythingManger {
         backgroundcleanThread =new Thread(deleteThingFromSqlInter,"cleanThing-Thread");
         backgroundcleanThread.setDaemon(true); //设置为守护线程，当所有线程停止该线程也就停止
 
+        fileWatch=new FileWatchImpl(fileIndexDao);
     }
 
     //初始化数据库
@@ -84,8 +91,8 @@ public class EverythingManger {
                 if(everythingManger==null)
                 {
                     everythingManger=new EverythingManger();
-                    everythingManger.initScanSearch(); //需要遍历的
-                    everythingManger.InitSql(); //初始化数据库
+                    everythingManger.initScanSearch(); //需要遍历的目录和排除的目录
+                    //everythingManger.InitSql(); //初始化数据库
                 }
             }
         }
@@ -155,6 +162,7 @@ public class EverythingManger {
             }
             try {
                 countDownLatch.await(); //如果还有线程，将会一直阻塞，直至线程数为1
+                System.out.println("文件数量:"+new FileIndexDao(DataSourceFactory.getDataSource()).getCountFile());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -163,9 +171,10 @@ public class EverythingManger {
     }
 
 
+    //启动后台清理线程
     public void startCleanThread()
     {
-        //期望该清理线程没哟启动，然后改为true
+        //期望该清理线程没有启动，然后改为true
         if(this.cleanthreadStatus.compareAndSet(false,true))
         {
             backgroundcleanThread.start();
@@ -174,5 +183,21 @@ public class EverythingManger {
         {
             System.out.println("cleanThread had started and would not be started again");
         }
+    }
+
+    //启动文件系统监听
+    public void startFileMonitor()
+    {
+        EverythingConfig everythingConfig=EverythingConfig.getConfig();
+        //先监听
+        this.fileWatch.monitor(everythingConfig);
+        //再启动，用一个线程来启动
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("文件监听");
+                fileWatch.start();
+            }
+        }).start();
     }
 }

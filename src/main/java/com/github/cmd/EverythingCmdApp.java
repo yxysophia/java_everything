@@ -32,6 +32,9 @@ public class EverythingCmdApp {
         //启动后台清理线程
         everythingManger.startCleanThread();
 
+        //启动后台文件监听线程
+        everythingManger.startFileMonitor();
+
         //交互式
         client(everythingManger);
 
@@ -61,7 +64,6 @@ public class EverythingCmdApp {
                     if(re.length==3)
                     {
                         condition.setFileType(FileType.lookUpByName(re[2]));
-                        System.out.println(condition.getFileType());
                     }
                   doSearch(condition,everythingManger);
                 }else
