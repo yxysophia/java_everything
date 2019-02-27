@@ -25,7 +25,8 @@
 
 <font  size=4>**5.实现**</font>
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227090646380.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NvcGhpYV9feXU=,size_16,color_FFFFFF,t_70)
-  **5.1     H2数据库**
+ 
+ **5.1     H2数据库**
 
  - 开源的Java语言编写的嵌入式数据库
  - 内存小
@@ -69,6 +70,7 @@ args：
  - --excludePath=E:\a,C:\Windows，默认为C:\Windows, C:\Program Files, C:\Users, C:\Program Files (x86）
  
  **6.2 命令**
+ 
 命令列表:
 帮助：help
 退出：exit
