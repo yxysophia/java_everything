@@ -1,6 +1,7 @@
 **Everything**
 
 <font  size=4>**1.简介**</font>
+
 仿照桌面工具Everything，基于Java语言开发的命令行搜索工具。
 
 <font  size=4>**2.意义**</font>
@@ -75,6 +76,7 @@ args：
 检索：search fileName [fileType: img doc bin other]
 
  **6.3检索**
+ 
 不指定文件类型：
 ```
 please input your require:
